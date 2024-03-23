@@ -1,10 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Livepeer } from "livepeer";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
   const inputText = data.untrustedData.inputText;
-  console.log("input", inputText);  // @fetch stream key and show below
+  console.log("input", inputText); // @fetch stream key and show below
 
+  const livepeer = new Livepeer({
+    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
+  });
+
+  const streamData = {
+    name: inputText,
+  };
+
+  const response = await livepeer.stream.create(streamData);
+
+  const str = String.fromCharCode.apply(String, response.rawResponse?.data);
+  const obj = JSON.parse(str);
+
+  console.log("stream created", obj.streamKey);
+  //* srt://rtmp.livepeer.com:2935?streamid=${obj.streamKey}
   return new NextResponse(`   
   <!DOCTYPE html>
       <html>
