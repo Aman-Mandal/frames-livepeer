@@ -11,14 +11,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       <head>
           <title>Create stream</title>
           <meta property="fc:frame" content="vNext"/>
-          <meta property="fc:frame:image" content="https://i.imgur.com/yErFr19.jpeg" />
+          <meta property="fc:frame:image" content="https://i.postimg.cc/k5ZNCYJD/title.png" />
           <meta property="fc:frame:input:text" content="Stream title"/>
           <meta property="fc:frame:button:1" content="Next" />
           <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_BASE_URL}/api/stream-api-key"/>
       </head>
       </html>
     `);
-  } else if(buttonId === 2) {
+  } else if (buttonId === 2) {
     return new NextResponse(`
       <!DOCTYPE html>
       <html>
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       </head>
       </html>
     `);
-  }else{
+  } else {
     return new NextResponse(`
       <!DOCTYPE html>
       <html>

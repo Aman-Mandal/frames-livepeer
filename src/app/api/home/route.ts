@@ -7,7 +7,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             <head>
                 <title>Create stream, watch live or view analytics</title>
                 <meta property="fc:frame" content="vNext"/>
-                <meta property="fc:frame:image" content="https://i.imgur.com/aC65jWk.jpeg" />
+                <meta property="fc:frame:image" content="https://i.postimg.cc/JzfWSmfF/started.png" />
                 <meta />
                 <meta property="fc:frame:button:1" content="Create stream" />
                 <meta property="fc:frame:button:2" content="Watch live"/>
