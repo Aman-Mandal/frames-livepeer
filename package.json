@@ -11,7 +11,8 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.4"
+    "next": "14.1.4",
+    "@coinbase/onchainkit": "^0.6.2"
   },
   "devDependencies": {
     "typescript": "^5",
