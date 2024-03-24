@@ -11,6 +11,8 @@
   "dependencies": {
     "@coinbase/onchainkit": "^0.6.2",
     "@livepeer/react": "^4.1.11",
+    "@upstash/redis": "^1.29.0",
+    "ethers": "^5.7.2",
     "livepeer": "^3.0.2",
     "next": "14.1.4",
     "react": "^18",

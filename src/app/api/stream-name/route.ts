@@ -1,9 +1,16 @@
+import { client } from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
   const inputText = data.untrustedData.inputText;
-  console.log("input", inputText);  // @fetch stream key and show below
+  console.log("input", inputText); // this is the token gated stream api key
+
+  if (inputText) {
+    await client.set("tokenAddress", inputText);
+  } else {
+    await client.del("tokenAddress");
+  }
 
   return new NextResponse(`   
   <!DOCTYPE html>

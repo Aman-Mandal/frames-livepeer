@@ -1,18 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Livepeer } from "livepeer";
+import { client } from "@/app/lib/db";
+import { TypeT } from "livepeer/dist/models/components";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
   const inputText = data.untrustedData.inputText;
   console.log("input", inputText); // @fetch stream key and show below
 
+  const tokenAddress = await client.get("tokenAddress");
   const livepeer = new Livepeer({
     apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
   });
 
-  const streamData = {
+  console.log("token address", tokenAddress);
+
+  type TStream = {
+    name: string;
+    playbackPolicy?: {
+      type: TypeT;
+    };
+  };
+
+  const streamData: TStream = {
     name: inputText,
   };
+
+  if (tokenAddress) {
+    streamData.playbackPolicy = {
+      type: TypeT.Jwt,
+    };
+  }
 
   const response = await livepeer.stream.create(streamData);
 
@@ -20,6 +38,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const obj = JSON.parse(str);
 
   console.log("stream created", obj.streamKey);
+  console.log("id", obj.id);
   //* srt://rtmp.livepeer.com:2935?streamid=${obj.streamKey}
 
   const ogImageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/og-image?content=Your+Dynamic+Content`;

@@ -12,14 +12,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           <title>Add NFT/Erc20 token address</title>
           <meta property="fc:frame" content="vNext"/>
           <meta property="fc:frame:image" content="https://i.postimg.cc/k5ZNCYJD/title.png" />
-          <meta property="fc:frame:input:text" content="NFT/Erc20 address"/>
+          <meta property="fc:frame:input:text" content="NFT address"/>
           <meta property="fc:frame:button:1" content="Next" />
           <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_BASE_URL}/api/stream-name"/>
       </head>
       </html>
     `);
-  } else{
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/api/stream-name`);
+  } else {
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/stream-name`
+    );
   }
 }
 
