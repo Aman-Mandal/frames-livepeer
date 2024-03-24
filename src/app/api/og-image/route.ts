@@ -1,39 +1,44 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { NextRequest, NextResponse } from 'next/server';
-import svgToImg from "svg-to-img";
-import fs from "fs"
-import path from "path"
+import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
+// import svgToImg from "svg-to-img";
+import fs from "fs";
+import path from "path";
+import pinataSDK from "@pinata/sdk";
+import { client } from "@/app/lib/db";
 
-export async function GET(req: NextRequest, res: NextApiResponse) {
-    const params = req.nextUrl.searchParams
-    console.log("xxx", params)
+export async function POST(req: NextRequest, res: NextApiResponse) {
+  const params = req.nextUrl.searchParams;
+  console.log("xxx", params);
 
-    // Generate SVG content
-    const svgContent = `
-      <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-        <style>
-          .title { font: bold 48px sans-serif; fill: #333; }
-          /* Add more styles here */
-        </style>
-        <rect width="100%" height="100%" fill="#f0f0f0"></rect>
-        <text x="50%" y="50%" class="title" dominant-baseline="middle" text-anchor="middle">Hello</text>
-      </svg>
-    `;
-  
-    try {
-      const image = await svgToImg.from(svgContent).toPng();
+  const pinata = new pinataSDK(
+    process.env.NEXT_PUBLIC_PINATA_API_KEY,
+    process.env.NEXT_PUBLIC_PINATA_API_SECRET
+  );
 
-      console.log("xxx", image)
+  const streamId = await client.get("id");
+  const streamKey = await client.get("streamKey");
 
-    fs.writeFile("/public", image, (data) => {
-        console.log(data)
-    })
-  
-      // Set Content-Type header and send the image
-      res.setHeader("Content-Type", "image/png");
-      res.send(image);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
-    }
+  console.log("ss", streamId, streamKey);
+
+  const p = path.join(__dirname, "data.svg");
+  // Generate SVG content
+  const svgContent = `<svg width="800" height="418" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <rect width="100%" height="100%" fill="black" />      
+      <text x="20" y="150" font-family="Arial" font-size="20" fill="white">id: ${streamId}</text>
+      <text x="20" y="100" font-family="Arial" font-size="20" fill="white">stream key: ${streamKey}</text>
+      <text x="20" y="100" font-family="Arial" font-size="20" fill="white">server: srt://rtmp.livepeer.com:2935?streamid=${streamKey}</text>
+      </svg>`;
+
+  fs.writeFile(p, svgContent, (err) => {
+    console.log(err);
+  });
+
+  try {
+    const response = await pinata.pinFromFS(p);
+
+    console.log("hash", response.IpfsHash);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
+}

@@ -11,6 +11,7 @@
   "dependencies": {
     "@coinbase/onchainkit": "^0.6.2",
     "@livepeer/react": "^4.1.11",
+    "@pinata/sdk": "^2.1.0",
     "@upstash/redis": "^1.29.0",
     "ethers": "^5.7.2",
     "livepeer": "^3.0.2",
