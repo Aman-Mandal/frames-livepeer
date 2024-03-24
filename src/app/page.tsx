@@ -12,7 +12,7 @@ const frameMetadata = getFrameMetadata({
 });
 
 export const metadata: Metadata = {
-  title: "StreamX",
+  title: "Livecaster",
   description: "Start streaming without any configuration!",
   openGraph: {
     title: "StreamX - Start live streaming now",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1>StreamX</h1>
+      <h1>Livecaster</h1>
     </>
   );
 }
