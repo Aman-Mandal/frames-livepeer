@@ -42,7 +42,8 @@ export async function POST(req: NextRequest, res: NextApiResponse): Promise<Next
           <meta property="fc:frame:image" content="https://beige-emotional-dragon-806.mypinata.cloud/ipfs/${response.IpfsHash}" />
           <meta />
           <meta property="fc:frame:button:1" content="Watch stream" />
-          <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_BASE_URL}/api/stream-api-key"/>
+          <meta property="fc:frame:button:1:action" content="link"/>
+          <meta property="fc:frame:button:1:target" content="${process.env.NEXT_PUBLIC_BASE_URL}/start?id=${streamId}"/>
       </head>
       </html>
 `)}

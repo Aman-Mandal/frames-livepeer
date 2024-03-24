@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Livepeer } from "livepeer";
 import { useState } from "react";
+import Navbar from "../components/Navbar/Navbar";
 
 export default function Page() {
   const [src, setSrc] = useState<any>(null);

@@ -11,7 +11,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       <head>
           <title>Select type of stream</title>
           <meta property="fc:frame" content="vNext"/>
-          <meta property="fc:frame:image" content="https://i.postimg.cc/JzfWSmfF/started.png" />
+          <meta property="fc:frame:image" content="https://i.postimg.cc/9FmTHYd5/Vemoir.png" />
           <meta />
           <meta property="fc:frame:button:1" content="Tokengated Stream" />
           <meta property="fc:frame:button:2" content="Normal Stream"/>
@@ -26,8 +26,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       <head>
           <title>Watch live stream</title>
           <meta property="fc:frame" content="vNext"/>
-          <meta property="fc:frame:image" content="https://i.imgur.com/yErFr19.jpeg" />
-          <meta property="fc:frame:input:text" content="Stream id"/>
+          <meta property="fc:frame:image" content="https://i.postimg.cc/VkjWYkJ2/Vemoir-3.png" />
+          <meta property="fc:frame:input:text" content="Enter stream id"/>
           <meta property="fc:frame:button:1" content="Next" />
           <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_BASE_URL}/api/stream-live-video"/>
       </head>

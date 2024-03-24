@@ -7,6 +7,7 @@ import { TypeT } from "livepeer/dist/models/components";
 import { ethers } from "ethers";
 import { ABI } from "../constants";
 import { useRouter } from "next/navigation";
+import Navbar from "../components/Navbar/Navbar";
 
 export default function Page() {
   const searchParams = useSearchParams();
