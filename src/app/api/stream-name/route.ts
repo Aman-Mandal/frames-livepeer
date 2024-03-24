@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
   const inputText = data.untrustedData.inputText;
-  console.log("input", inputText); // this is the token gated stream api key
 
   if (inputText) {
     await client.set("tokenAddress", inputText);

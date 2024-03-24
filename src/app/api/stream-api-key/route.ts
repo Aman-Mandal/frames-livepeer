@@ -10,13 +10,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const [data, tokenAddress] = await Promise.all([test, token]);
 
   const inputText = data.untrustedData.inputText;
-  console.log("input", inputText); // @fetch stream key and show below
 
   const livepeer = new Livepeer({
     apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
   });
 
-  console.log("token address", tokenAddress);
 
   type TStream = {
     name: string;
@@ -40,8 +38,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const str = String.fromCharCode.apply(String, response.rawResponse?.data);
   const obj = JSON.parse(str);
 
-  console.log("stream created", obj.streamKey);
-  console.log("id", obj.id);
   //* srt://rtmp.livepeer.com:2935?streamid=${obj.streamKey}
 
   client.set("id", obj.id);

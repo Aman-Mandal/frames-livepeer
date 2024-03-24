@@ -26,7 +26,6 @@ export default function Page() {
       const str = String.fromCharCode.apply(String, res.rawResponse?.data);
       const obj = JSON.parse(str);
 
-      console.log("object", obj);
       setPolicy(obj.playbackPolicy.type);
       setPlaybackId(obj.playbackId);
     }
