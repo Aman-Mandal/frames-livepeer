@@ -17,9 +17,11 @@
     "ethers": "^6.11.1",
     "livepeer": "^3.0.2",
     "next": "14.1.4",
+    "pino-pretty": "^11.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "svg-to-img": "^2.0.9"
+    "svg-to-img": "^2.0.9",
+    "utf-8-validate": "^5.0.10"
   },
   "devDependencies": {
     "@types/node": "^20",
