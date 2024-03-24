@@ -1,5 +1,7 @@
 import { signAccessJwt } from "@livepeer/core/crypto";
+import { validateHeaderName } from "http";
 import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
 export type CreateSignedPlaybackBody = {
   playbackId: string;
@@ -12,19 +14,22 @@ export type CreateSignedPlaybackResponse = {
 const accessControlPrivateKey = process.env.NEXT_PUBLIC_LIVEPEER_PRIVATE_KEY;
 const accessControlPublicKey = process.env.NEXT_PUBLIC_LIVEPEER_PUBLIC_KEY;
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request, res: NextApiResponse) {
   try {
     if (!accessControlPrivateKey || !accessControlPublicKey) {
-      return res
-        .status(500)
-        .json({ message: "No private/public key configured." });
+      return NextResponse.json({
+        message: "No private/public key configured.",
+      });
     }
 
     const secret = "notknownsecret";
-    const { playbackId }: CreateSignedPlaybackBody = req.body;
+    const { playbackId }: CreateSignedPlaybackBody = await req.json();
+    console.log("req", req.body);
+
+    console.log("ff", playbackId, secret);
 
     if (!playbackId || !secret) {
-      return res.status(400).json({ message: "Missing data in body." });
+      return NextResponse.json({ message: "Missing data in body." });
     }
 
     // we check that the "supersecretkey" was passed in the body
@@ -48,13 +53,12 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.status(200).json({
+    console.log("token", token);
+    return NextResponse.json({
       token,
     });
   } catch (err) {
     console.error(err);
-    return res
-      .status(500)
-      .json({ message: (err as Error)?.message ?? "Error" });
+    return NextResponse.json({ message: (err as Error)?.message ?? "Error" });
   }
 }

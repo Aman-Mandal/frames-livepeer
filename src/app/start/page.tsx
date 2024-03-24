@@ -17,15 +17,18 @@ export default function Page() {
   const id = searchParams.get("id");
 
   const livepeer = new Livepeer({
-    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
+    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY_ONE,
   });
 
   useEffect(() => {
     async function getData() {
       const res = await livepeer.stream.get(id as string);
-      const str = String.fromCharCode.apply(String, res.rawResponse?.data);
-      const obj = JSON.parse(str);
-
+      console.log("res", res.stream);
+      // const str = String.fromCharCode.apply(String, res.rawResponse?.data);
+      // console.log("str", str);
+      // const obj = JSON.parse(str);
+      const obj = res.stream as any;
+      // console.log("obj", str, obj);
       setPolicy(obj.playbackPolicy.type);
       setPlaybackId(obj.playbackId);
     }
@@ -37,15 +40,27 @@ export default function Page() {
   const streamHandler = async () => {
     if (policy === TypeT.Jwt) {
       //@ts-ignore
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.BrowserProvider(window.ethereum);
 
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
 
-      const contract = new ethers.Contract("0x", ABI, signer);
+      console.log("signer", signer);
+      const contract = new ethers.Contract(
+        "0x163472941c37Ad917C7D223C8Fc196FD567c7d56",
+        ABI,
+        signer
+      );
+      const address = await signer.getAddress();
 
-      const balance = await contract.balanceOf(await signer.getAddress());
+      console.log("address", address);
+      const balance = await contract.balanceOf(address);
+
+      console.log("balance", balance);
 
       const nftBalance = Number(balance.toString());
+
+      console.log("ff", nftBalance);
+      console.log("pp", playbackId);
 
       if (nftBalance !== 0) {
         const data = await fetch("/api/jwt", {
@@ -56,10 +71,14 @@ export default function Page() {
           body: JSON.stringify({
             playbackId,
           }),
+          cache: "no-store",
         });
 
+        console.log("data", data);
         const res = await data.json();
+        console.log("resss", res);
 
+        console.log("result", res.token, playbackId);
         localStorage.setItem("token", res.token);
         router.push(`/live?playbackId=${playbackId}`);
       }

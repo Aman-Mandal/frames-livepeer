@@ -7,11 +7,13 @@ import { useEffect } from "react";
 import { Livepeer } from "livepeer";
 import { useState } from "react";
 
-export const AccessControl = () => {
+export default function Page() {
   const [src, setSrc] = useState<any>(null);
   const searchParams = useSearchParams();
 
   const jwt = localStorage.getItem("token");
+
+  console.log("token", jwt);
 
   const playbackId = searchParams.get("playbackId");
 
@@ -25,8 +27,10 @@ export const AccessControl = () => {
 
       const src = getSrc(playbackInfo.playbackInfo);
 
+      console.log("src", src);
       setSrc(src);
     }
+    getData();
   }, []);
 
   return (
@@ -42,4 +46,4 @@ export const AccessControl = () => {
       )}
     </>
   );
-};
+}
