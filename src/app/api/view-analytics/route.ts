@@ -1,9 +1,20 @@
+import { Livepeer } from "livepeer";
+import { GetCreatorMetricsRequest, QueryParamBreakdownBy, QueryParamTimeStep } from "livepeer/dist/models/operations";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
   const inputText = data.untrustedData.inputText;
   console.log("input", inputText);  // @fetch stream key and show below
+
+  const livepeer = new Livepeer({
+    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
+  });
+ 
+  const response = await livepeer.metrics.getPublicTotalViews(inputText)
+  const str = String.fromCharCode.apply(String, response.rawResponse?.data);
+  const obj = JSON.parse(str);
+  console.log("xxx", obj) // @Vaibhav dynamic og image to show on screen
 
   return new NextResponse(`   
   <!DOCTYPE html>
