@@ -41,7 +41,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   console.log("id", obj.id);
   //* srt://rtmp.livepeer.com:2935?streamid=${obj.streamKey}
 
-  const ogImageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/og-image?content=Your+Dynamic+Content`;
 
   return new NextResponse(`   
   <!DOCTYPE html>
@@ -49,7 +48,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         <head>
         <title>Stream api key</title>
           <meta property="fc:frame" content="vNext" />
-          <meta property="fc:frame:image" content="${ogImageUrl}"/>
+          <meta property="fc:frame:image" content="https://i.postimg.cc/k5ZNCYJD/title.png"/>
           <meta property="fc:frame:button:1" content="Go live" />
           <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_BASE_URL}/api/go-live"/>
           </head>
