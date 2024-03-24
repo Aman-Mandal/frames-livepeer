@@ -9,12 +9,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   <!DOCTYPE html>
       <html>
         <head>
-        <title>Watch live stream here</title>
+        <title>Add stream name</title>
           <meta property="fc:frame" content="vNext" />
-          <meta property="fc:frame:video" content="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8/"/>
-          <meta property="fc:frame:video:type" content=".m3u8"/>
-          <meta property="fc:frame:button:1" content="Close" />
-          <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_BASE_URL}/api/home"/>
+          <meta property="fc:frame:image" content="https://i.postimg.cc/k5ZNCYJD/title.png" />
+          <meta property="fc:frame:input:text" content="Stream name"/>
+          <meta property="fc:frame:button:1" content="Next" />
+          <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_BASE_URL}/api/stream-api-key"/>
           </head>
       </html>
   `);
