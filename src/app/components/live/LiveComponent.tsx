@@ -9,9 +9,8 @@ import { useState } from "react";
 
 export default function LiveComponent() {
   const [src, setSrc] = useState<any>(null);
+  const [jwt, setJwt] = useState<any>(null);
   const searchParams = useSearchParams();
-
-  const jwt = localStorage.getItem("token");
 
   const playbackId = searchParams.get("playbackId");
 
@@ -20,15 +19,18 @@ export default function LiveComponent() {
   });
 
   useEffect(() => {
+    const jwtToken = localStorage.getItem("token");
+
     async function getData() {
       const playbackInfo = await livepeer.playback.get(playbackId as string);
 
       const src = getSrc(playbackInfo.playbackInfo);
 
       setSrc(src);
+      setJwt(jwtToken);
     }
     getData();
-  }, [livepeer.playback, playbackId]);
+  }, [playbackId]);
 
   return (
     <>

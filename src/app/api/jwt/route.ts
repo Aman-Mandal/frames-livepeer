@@ -43,10 +43,6 @@ export async function POST(req: Request, res: NextApiResponse) {
       playbackId,
       // expire the JWT in 1 hour
       expiration: 3 * 86400,
-      // custom metadata to include
-      custom: {
-        userId: "user-id-1",
-      },
     });
 
     return NextResponse.json({

@@ -17,9 +17,10 @@ export async function POST(
     process.env.NEXT_PUBLIC_PINATA_API_SECRET
   );
 
-  const [streamId, streamKey] = await Promise.all([
+  const [streamId, streamKey, tokenAddress] = await Promise.all([
     client.get("id"),
     client.get("streamKey"),
+    client.get("tokenAddress"),
   ]);
 
   const p = path.join(__dirname, "data.png");
@@ -41,7 +42,7 @@ export async function POST(
           <meta property="fc:frame:image" content="https://beige-emotional-dragon-806.mypinata.cloud/ipfs/${response.IpfsHash}" />
           <meta property="fc:frame:button:1" content="Watch stream" />
           <meta property="fc:frame:button:1:action" content="link"/>
-          <meta property="fc:frame:button:1:target" content="${process.env.NEXT_PUBLIC_BASE_URL}/start?id=${streamId}"/>
+          <meta property="fc:frame:button:1:target" content="${process.env.NEXT_PUBLIC_BASE_URL}/start?id=${streamId}&tokenAddress=${tokenAddress}"/>
       </head>
       </html>
 `);
