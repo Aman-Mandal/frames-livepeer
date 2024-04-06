@@ -12,7 +12,6 @@ import path from "path";
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
   const inputText = data.untrustedData.inputText;
-  console.log("input", inputText); // @fetch stream key and show
 
   const bearerToken = inputText.split(", ")[0];
   //* stream id
@@ -25,7 +24,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const response = await livepeer.stream.get(id);
   const str = String.fromCharCode.apply(String, response.rawResponse?.data);
   const obj = JSON.parse(str);
-  console.log("xxx", obj); // @Vaibhav dynamic og image to show on screen
 
   const pinata = new pinataSDK(
     process.env.NEXT_PUBLIC_PINATA_API_KEY,

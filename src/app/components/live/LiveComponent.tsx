@@ -13,8 +13,6 @@ export default function LiveComponent() {
 
   const jwt = localStorage.getItem("token");
 
-  console.log("token", jwt);
-
   const playbackId = searchParams.get("playbackId");
 
   const livepeer = new Livepeer({
@@ -27,7 +25,6 @@ export default function LiveComponent() {
 
       const src = getSrc(playbackInfo.playbackInfo);
 
-      console.log("src", src);
       setSrc(src);
     }
     getData();

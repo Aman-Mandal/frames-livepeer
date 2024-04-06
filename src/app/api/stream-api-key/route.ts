@@ -3,6 +3,13 @@ import { Livepeer } from "livepeer";
 import { client } from "@/app/lib/db";
 import { TypeT } from "livepeer/dist/models/components";
 
+type TStream = {
+  name: string;
+  playbackPolicy?: {
+    type: TypeT;
+  };
+};
+
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const test = req.json();
 
@@ -14,14 +21,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const livepeer = new Livepeer({
     apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY,
   });
-
-
-  type TStream = {
-    name: string;
-    playbackPolicy?: {
-      type: TypeT;
-    };
-  };
 
   const streamData: TStream = {
     name: inputText,

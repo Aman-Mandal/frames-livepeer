@@ -1,7 +1,6 @@
 import { signAccessJwt } from "@livepeer/core/crypto";
-import { validateHeaderName } from "http";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
 export type CreateSignedPlaybackBody = {
   playbackId: string;
@@ -24,9 +23,6 @@ export async function POST(req: Request, res: NextApiResponse) {
 
     const secret = "notknownsecret";
     const { playbackId }: CreateSignedPlaybackBody = await req.json();
-    console.log("req", req.body);
-
-    console.log("ff", playbackId, secret);
 
     if (!playbackId || !secret) {
       return NextResponse.json({ message: "Missing data in body." });
@@ -53,7 +49,6 @@ export async function POST(req: Request, res: NextApiResponse) {
       },
     });
 
-    console.log("token", token);
     return NextResponse.json({
       token,
     });

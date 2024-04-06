@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/lib-storage": "^3.550.0",
     "@coinbase/onchainkit": "^0.6.2",
     "@livepeer/react": "^4.1.11",
     "@pinata/sdk": "^2.1.0",
