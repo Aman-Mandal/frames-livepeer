@@ -1,13 +1,9 @@
 import { Livepeer } from "livepeer";
-import {
-  GetCreatorMetricsRequest,
-  QueryParamBreakdownBy,
-  QueryParamTimeStep,
-} from "livepeer/dist/models/operations";
 import { NextRequest, NextResponse } from "next/server";
 import pinataSDK from "@pinata/sdk";
 import fs from "fs";
 import path from "path";
+import * as svgToImg from "svg-to-img";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
@@ -42,18 +38,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         obj.playbackId
       }</text>
       <text x="20" y="250" font-family="Arial" font-size="20" fill="white">isHealthy: ${
-        obj.isHealthy === undefined ? false : obj.isHealthy
+        !obj.isHealthy ? false : obj.isHealthy
       }</text>
       <text x="20" y="300" font-family="Arial" font-size="20" fill="white">isActive: ${
         obj.isActive
       }</text>
       </svg>`;
 
-  const p = path.join(__dirname, "data.svg");
+  const p = path.join(__dirname, "analytics.png");
 
-  fs.writeFile(p, svgContent, (err) => {
-    console.log(err);
-  });
+  const pngData = await svgToImg.from(svgContent).toPng();
+
+  fs.writeFileSync(p, pngData);
 
   const resp = await pinata.pinFromFS(p);
 

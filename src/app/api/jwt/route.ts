@@ -21,7 +21,7 @@ export async function POST(req: Request, res: NextApiResponse) {
       });
     }
 
-    const secret = "notknownsecret";
+    const secret = process.env.NEXT_PUBLIC_SECRET;
     const { playbackId }: CreateSignedPlaybackBody = await req.json();
 
     if (!playbackId || !secret) {

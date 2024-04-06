@@ -3,7 +3,7 @@
 import * as Player from "@livepeer/react/player";
 import { getSrc } from "@livepeer/react/external";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { Livepeer } from "livepeer";
 import { useState } from "react";
 
@@ -28,7 +28,7 @@ export default function LiveComponent() {
       setSrc(src);
     }
     getData();
-  }, []);
+  }, [livepeer.playback, playbackId]);
 
   return (
     <>
