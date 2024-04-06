@@ -1,13 +1,13 @@
 "use client";
 
 import { Suspense } from "react";
-import StartComponent from "../components/Navbar/start/StartComponent";
+import LiveComponent from "../components/live/LiveComponent";
 
 export default function Live() {
   return (
     <>
       <Suspense>
-        <StartComponent />
+        <LiveComponent />
       </Suspense>
     </>
   );
