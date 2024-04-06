@@ -1,11 +1,11 @@
-import { useSearchParams } from "next/navigation";
-import { Livepeer } from "livepeer";
-import { Suspense, useEffect, useState } from "react";
-import { TypeT } from "livepeer/dist/models/components";
-import { ethers } from "ethers";
-import { ABI } from "../../constants";
-import { useRouter } from "next/navigation";
-import { GetStreamResponse } from "livepeer/dist/models/operations";
+import { useSearchParams } from 'next/navigation';
+import { Livepeer } from 'livepeer';
+import { Suspense, useEffect, useState } from 'react';
+import { TypeT } from 'livepeer/dist/models/components';
+import { ethers } from 'ethers';
+import { ABI } from '../../constants';
+import { useRouter } from 'next/navigation';
+import { GetStreamResponse } from 'livepeer/dist/models/operations';
 
 export default function StartComponent() {
   const searchParams = useSearchParams();
@@ -13,7 +13,7 @@ export default function StartComponent() {
   const [playbackId, setPlaybackId] = useState<string | null>(null);
   const router = useRouter();
 
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
 
   const livepeer = new Livepeer({
     apiKey: process.env.NEXT_PUBLIC_LIVEPEER_KEY_ONE,
@@ -23,7 +23,7 @@ export default function StartComponent() {
     async function getData() {
       const res: GetStreamResponse = await livepeer.stream.get(id as string);
 
-      console.log("res", res.stream);
+      console.log('res', res.stream);
       // const str = String.fromCharCode.apply(String, res.rawResponse?.data);
       // console.log("str", str);
       // const obj = JSON.parse(str);
@@ -46,43 +46,38 @@ export default function StartComponent() {
 
       const signer = await provider.getSigner();
 
-      console.log("signer", signer);
+      console.log('signer', signer);
       const contract = new ethers.Contract(
-        "0x163472941c37Ad917C7D223C8Fc196FD567c7d56",
+        '0x163472941c37Ad917C7D223C8Fc196FD567c7d56',
         ABI,
         signer
       );
       const address = await signer.getAddress();
-
-      console.log("address", address);
       const balance = await contract.balanceOf(address);
-
-      console.log("balance", balance);
-
       const nftBalance = Number(balance.toString());
 
-      console.log("ff", nftBalance);
-      console.log("pp", playbackId);
-
       if (nftBalance !== 0) {
-        const data = await fetch("/api/jwt", {
-          method: "POST",
+        const data = await fetch('/api/jwt', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             playbackId,
           }),
-          cache: "no-store",
+          cache: 'no-store',
         });
 
-        console.log("data", data);
         const res = await data.json();
-        console.log("resss", res);
 
-        console.log("result", res.token, playbackId);
-        localStorage.setItem("token", res.token);
+        localStorage.setItem('token', res.token);
         router.push(`/live?playbackId=${playbackId}`);
+      }
+    } else {
+      if (playbackId) {
+        router.push(`/normal?playbackId=${playbackId}`);
+      } else {
+        throw new Error('No playbackId found');
       }
     }
   };
