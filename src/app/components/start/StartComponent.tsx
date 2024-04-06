@@ -3,13 +3,14 @@ import { Livepeer } from "livepeer";
 import { Suspense, useEffect, useState } from "react";
 import { TypeT } from "livepeer/dist/models/components";
 import { ethers } from "ethers";
-import { ABI } from "../../../constants";
+import { ABI } from "../../constants";
 import { useRouter } from "next/navigation";
+import { GetStreamResponse } from "livepeer/dist/models/operations";
 
 export default function StartComponent() {
   const searchParams = useSearchParams();
-  const [policy, setPolicy] = useState(null);
-  const [playbackId, setPlaybackId] = useState(null);
+  const [policy, setPolicy] = useState<TypeT | null>(null);
+  const [playbackId, setPlaybackId] = useState<string | null>(null);
   const router = useRouter();
 
   const id = searchParams.get("id");
@@ -20,14 +21,17 @@ export default function StartComponent() {
 
   useEffect(() => {
     async function getData() {
-      const res = await livepeer.stream.get(id as string);
+      const res: GetStreamResponse = await livepeer.stream.get(id as string);
+
       console.log("res", res.stream);
       // const str = String.fromCharCode.apply(String, res.rawResponse?.data);
       // console.log("str", str);
       // const obj = JSON.parse(str);
-      const obj = res.stream as any;
+      const obj = res.stream;
+      if (!obj || !obj.playbackId) return;
+
       // console.log("obj", str, obj);
-      setPolicy(obj.playbackPolicy.type);
+      setPolicy(obj.playbackPolicy ? obj.playbackPolicy.type : TypeT.Public);
       setPlaybackId(obj.playbackId);
     }
     if (id) {
