@@ -45,13 +45,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }</text>
       </svg>`;
 
-  const p = path.join(__dirname, "analytics.png");
-
   const pngData = await sharp(Buffer.from(svgContent)).png().toBuffer();
 
-  await sharp(pngData).toFile(p);
+  await sharp(pngData).toFile("./analytics.png");
 
-  const resp = await pinata.pinFromFS(p);
+  const resp = await pinata.pinFromFS("./analytics.png");
 
   return new NextResponse(`   
   <!DOCTYPE html>
