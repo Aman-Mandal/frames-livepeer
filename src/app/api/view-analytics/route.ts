@@ -1,8 +1,7 @@
 import { Livepeer } from "livepeer";
 import { NextRequest, NextResponse } from "next/server";
 import pinataSDK from "@pinata/sdk";
-import fs from "fs";
-import path from "path";
+import { Readable } from "stream";
 import sharp from "sharp";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
@@ -45,11 +44,15 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }</text>
       </svg>`;
 
-  const pngData = await sharp(Buffer.from(svgContent)).png().toBuffer();
+  const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
 
-  await sharp(pngData).toFile("./analytics.png");
+  const pngStream = new Readable();
+  pngStream.push(pngBuffer);
+  pngStream.push(null);
 
-  const resp = await pinata.pinFromFS("./analytics.png");
+  const resp = await pinata.pinFileToIPFS(pngStream, {
+    pinataMetadata: { name: "analytics" },
+  });
 
   return new NextResponse(`   
   <!DOCTYPE html>
