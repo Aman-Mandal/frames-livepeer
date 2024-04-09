@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import pinataSDK from "@pinata/sdk";
 import fs from "fs";
 import path from "path";
-import * as svgToImg from "svg-to-img";
+import sharp from "sharp";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
@@ -47,9 +47,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   const p = path.join(__dirname, "analytics.png");
 
-  const pngData = await svgToImg.from(svgContent).toPng();
+  const pngData = await sharp(Buffer.from(svgContent)).png().toBuffer();
 
-  fs.writeFileSync(p, pngData);
+  await sharp(pngData).toFile(p);
 
   const resp = await pinata.pinFromFS(p);
 
