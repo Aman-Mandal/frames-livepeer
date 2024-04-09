@@ -17,6 +17,8 @@ export async function POST(
     process.env.NEXT_PUBLIC_PINATA_API_SECRET
   );
 
+  console.log("pinata", pinata);
+
   const [streamId, streamKey, tokenAddress] = await Promise.all([
     client.get("id"),
     client.get("streamKey"),
@@ -32,6 +34,8 @@ export async function POST(
   fs.writeFileSync(p, pngData);
 
   const response = await pinata.pinFromFS(p);
+
+  console.log("response", response);
 
   return new NextResponse(`
       <!DOCTYPE html>
