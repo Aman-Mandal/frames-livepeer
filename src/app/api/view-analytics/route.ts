@@ -46,9 +46,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
 
-  const pngStream = new Readable();
-  pngStream.push(pngBuffer);
-  pngStream.push(null);
+  const pngStream = Readable.from(pngBuffer);
 
   const resp = await pinata.pinFileToIPFS(pngStream, {
     pinataMetadata: { name: "analytics" },

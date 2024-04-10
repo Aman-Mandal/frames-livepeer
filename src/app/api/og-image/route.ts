@@ -26,9 +26,7 @@ export async function POST(
 
   const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
 
-  const pngStream = new Readable();
-  pngStream.push(pngBuffer);
-  pngStream.push(null);
+  const pngStream = Readable.from(pngBuffer);
 
   const response = await pinata.pinFileToIPFS(pngStream, {
     pinataMetadata: { name: "data" },
