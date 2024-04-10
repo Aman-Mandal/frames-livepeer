@@ -1,4 +1,4 @@
-FROM node:20 AS BUILDER
+FROM node:18 AS BUILDER
 
 WORKDIR /app
 
@@ -11,11 +11,11 @@ COPY . .
 
 RUN  npm run build
 
-FROM node:20
+FROM node:18
 
 COPY --from=BUILDER /app/node_modules ./node_modules
-COPY --from=builder ["/app/package.json", "/app/package-lock.json", "./"]
-COPY --from=builder /app/.next ./.next
+COPY --from=BUILDER ["/app/package.json", "/app/package-lock.json", "./"]
+COPY --from=BUILDER /app/.next ./.next
 
 EXPOSE 3000
 
